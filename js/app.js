@@ -37,13 +37,22 @@ function createItem(sec) {
     let sectionId = sec.getAttribute("id");
 
     let item = document.createElement("li");
-    item.innerHTML = "<a class='menu__link' href='#" + sectionId + "'>" + sectionName + "</button>"
+    item.innerHTML = '<a class="menu__link" href="#' + sectionId + '">' + sectionName + '</button>';
 
     return item;
 }
 
-// Function to set the active section in the view port
-
+// Function to highlight the active navigation item in the view port
+function highlightNavItems (secId) {
+    const navItems = Array.from(navBarList.getElementsByTagName("li"));
+    for (let item of navItems){ 
+        if(item.innerHTML.includes('href=\"#' + secId + '\"')) {
+            item.classList.add("menu__active");
+        } else {
+            item.classList.remove("menu__active");
+        }
+    }
+}
 
 /**
  * End Helper Functions
@@ -66,15 +75,17 @@ function setActiveSection() {
     for (let section of sections) {
         let sectionTop = section.getBoundingClientRect().top;
         let sectionBottom = section.getBoundingClientRect().bottom;
+        let sectionId = section.getAttribute("id");
 
         if(sectionTop <= 300 && sectionBottom >= 300) {
             if(!section.classList.contains("your-active-class")) {
                 section.classList.add("your-active-class");
+                highlightNavItems(sectionId);
             }
         } else {
             section.classList.remove("your-active-class");
         }
-}
+    }
 }
 
 // Scroll to anchor ID using scrollTO event
@@ -90,7 +101,14 @@ function setActiveSection() {
 createNavList();
 
 // Scroll to section on link click
-document.documentElement.style.scrollBehavior = "smooth";
+navBarList.addEventListener("click", function (event) {
+    event.preventDefault();
+    const target = event.target;
+    if (target.classList.contains("menu__link")) {
+        const id = target.getAttribute("href").slice(1);
+        document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    }
+});
 
 // Set sections as active
 document.addEventListener("scroll", setActiveSection);
