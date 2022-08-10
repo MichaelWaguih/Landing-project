@@ -38,6 +38,7 @@ function createItem(sec) {
 
     let item = document.createElement("li");
     item.innerHTML = '<a class="menu__link" href="#' + sectionId + '">' + sectionName + '</button>';
+    //item.innerHTML = '<a class="menu__link">' + sectionName + '</button>';
 
     return item;
 }
