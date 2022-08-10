@@ -112,4 +112,3 @@ navBarList.addEventListener("click", function (event) {
 
 // Set sections as active
 document.addEventListener("scroll", setActiveSection);
-
